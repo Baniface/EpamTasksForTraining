@@ -9,73 +9,45 @@ namespace Epam
 		static void Main(string[] args)
 		{
 			{
-				//string s = "to toy to. to.. bottom ko?to.do what? why, why net sqrt.world, world apple www-site site.";
+				////Test GetGCD
+				//Console.WriteLine(GetGCD(2147483646, 21474));
+				//Console.WriteLine(GetGCD(36, 16));
+				//Console.WriteLine(GetGCD(0, 5));
+				//Console.WriteLine(GetGCD(10, 100));
+				//Console.WriteLine(GetGCD(19, 11));
+				//Console.WriteLine(GetGCD(256, 64));
+			}
+
+			{
+				////Test GetCountVowels & Test OrderStringsByLength
+				//string[] arr = new string[] { "qwert", "yuio", "p", "asd", "fghjkl", "zxc", "vbnm" };
+				//for (int i = 0; i < arr.Length; i++)
+				//{
+				//	Console.WriteLine(arr[i] + ": " + GetCountVowels(arr[i]));
+				//}
+
+				//OrderStringsByLength(arr);
+				//for (int i = 0; i < arr.Length; i++)
+				//{
+				//	Console.WriteLine(arr[i]);
+				//}
+			}
+
+			{
+				////Test RemoveDuplicateWords
+				//string s = "to to. toy to.. bottom who?to.do what? why, why net sqrt.world, world apple www-site site.";
 				//Console.WriteLine(RemoveDuplicateWords(s));
-				//Console.ReadKey();
 			}
-			
-			Console.WriteLine(GetGCD3(2147483646, 21474));
-			Console.WriteLine(GetGCD3(36, 16));
-			Console.WriteLine(GetGCD3(0, 5));
-			Console.WriteLine(GetGCD3(10, 100));
-			Console.ReadKey();
+
+			//Console.ReadKey();
 		}
 
-		public static int GetGCD(int a, int b)
-		{
-			int max;
-			int min;
-			if (a > b)
-			{
-				max = a;
-				min = b;
-			}
-			else
-			{
-				max = b;
-				min = a;
-			}
-
-			while (max % min != 0)
-			{
-				if (min > max - min)
-				{
-					min = max - min;
-					max = max - min;
-				}
-				else
-				{
-					max = max - min;
-				}
-			}
-
-			return min;
-		}
-
-		public static int GetGCD2(int a, int b)
-		{
-			if (a == 0 || b == 0)
-			{
-				Console.WriteLine("GCD does not exist.");
-				return 0;
-			}
-
-			int max = Math.Max(a, b);
-			int min = Math.Min(a, b);
-			while (max % min != 0)
-			{
-				max = Math.Max(min, max - min);
-				min = Math.Min(min, max - min);
-			}
-
-			return min;
-		}
-
-		public static int GetGCD3(int max, int min)
+		public static int GetGCD(int max, int min)
 		{
 			if (max == 0 || min == 0)
 			{
-				Console.WriteLine("GCD does not exist.");
+				Console.WriteLine($"GCD does not exist for numbers {max} and {min}.");
+				return 0;
 			}
 
 			if (max < min)
@@ -104,26 +76,11 @@ namespace Epam
 		public static int GetCountVowels(string s)
 		{
 			int count = 0;
+			char[] vowels = new char[] { 'a', 'e', 'i', 'o', 'u' };
 			for (int i = 0; i < s.Length; i++)
 			{
-				switch (s[i])
-				{
-					case 'a':
-						count++;
-						break;
-					case 'e':
-						count++;
-						break;
-					case 'i':
-						count++;
-						break;
-					case 'o':
-						count++;
-						break;
-					case 'u':
-						count++;
-						break;
-				}
+				if (vowels.Contains(s[i]))
+					count++;
 			}
 
 			return count;
@@ -146,82 +103,8 @@ namespace Epam
 			}
 		}
 
-		public static string RemoveDuplicateWords_old(string s)
+		public static string RemoveDuplicateWords(string s)
 		{
-			string[] dirtyWords = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-			IEnumerable<string> pureWords = s.Split(new char[] { ' ', '.', ',', '!', '?', '-', ':', ';' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
-			foreach (string pureWord in pureWords)
-			{
-				int wordPosition = 0;
-				for (int i = 0; i < dirtyWords.Length; i++)
-				{
-					if (dirtyWords[i] == pureWord)
-					{
-						wordPosition++;
-					}
-					else if (dirtyWords[i].Contains(pureWord))
-					{
-						int startPos = dirtyWords[i].IndexOf(pureWord);
-						int[] checkPositions;
-						if (startPos == 0)
-						{
-							checkPositions = new int[] { pureWord.Length };
-						}
-						else if (startPos + pureWord.Length == dirtyWords[i].Length)
-						{
-							checkPositions = new int[] { startPos - 1 };
-						}
-						else
-						{
-							checkPositions = new int[] { startPos - 1, startPos + pureWord.Length };
-						}
-
-						foreach (int checkPos in checkPositions)
-						{
-							switch (dirtyWords[i][checkPos])
-							{
-								case '.':
-									break;
-								case ',':
-									break;
-								case '!':
-									break;
-								case '?':
-									break;
-								case '-':
-									break;
-								case ':':
-									break;
-								case ';':
-									break;
-								default:
-									goto LoopEnd;
-
-							}
-						}
-						wordPosition++;
-					}
-
-					if (wordPosition > 1)
-						dirtyWords[i] = dirtyWords[i].Replace(pureWord, "");
-
-					LoopEnd:;
-				}
-			}
-
-			string newS = dirtyWords[0];
-			for (int i = 1; i < dirtyWords.Length; i++)
-			{
-				if (dirtyWords[i] != "")
-					newS += " " + dirtyWords[i];
-			}
-
-			return newS;
-		}
-
-		public static string RemoveDuplicateWords()
-		{
-			string s = "to to. toy to. to.. bottom ko?to.do what? why, why net sqrt.world, world apple www-site site.";
 			List<string> listWords = new List<string>();
 			char[] separators = new char[]{ ' ', '.', ',', '!', '?', '-', ':', ';' };
 			string currWord = "";
@@ -252,5 +135,6 @@ namespace Epam
 
 			return s;
 		}
+
 	}
 }
